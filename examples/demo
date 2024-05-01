@@ -1,0 +1,24 @@
+#!/usr/bin/env perl
+# vim:ft=c:sts=4:sw=4:et
+
+use v5.36;
+
+use Proj;
+
+say Proj::version();
+
+my $src = "EPSG:4326";
+my $tgt = "+proj=utm +zone=32 +datum=WGS84";
+my $p = Proj::crs2crs($src,$tgt);
+my $q = Proj::norm($p);
+say Proj::definition($p);
+say Proj::definition($q);
+
+my $a = [12, 55];
+my $b = Proj::fwd($q, $a);
+printf "\neasting: %.3f, northing: %.3f\n", @$b;
+
+my $c = Proj::inv($q, $b);
+printf "\nlongitude: %g, latitude: %g\n", @$c;
+
+
