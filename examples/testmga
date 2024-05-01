@@ -1,0 +1,19 @@
+#!/usr/bin/env perl
+# vim:ft=perl:sts=4:sw=4:et
+
+use v5.36;
+
+use Proj;
+
+my $zone = 56;
+my $pos  = [502810, 6964520, 0];
+say "@$pos";
+
+say "mga to geographic gda94";
+
+my $cs = Proj::crs2crs("EPSG:283".$zone, "EPSG:4283");
+my $result = Proj::fwd($cs,$pos);
+printf "%.9f %.9f %.3f\n", @$result;
+my $result2 = Proj::inv($cs,$result);
+printf "%.5f %.5f %.3f\n\n", @$result2;
+
