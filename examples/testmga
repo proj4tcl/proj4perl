@@ -13,7 +13,7 @@ say "mga to geographic gda94";
 
 my $cs = Proj::crs2crs("EPSG:283".$zone, "EPSG:4283");
 say Proj::definition($cs);
-$cs = Proj::norm($cs);
+#$cs = Proj::norm($cs);
 say Proj::definition($cs);
 my $result = Proj::fwd($cs,$pos);
 printf "%.9f %.9f %.3f\n", @$result;
