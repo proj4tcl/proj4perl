@@ -71,3 +71,14 @@ say Proj::definition($mga2gda);
 say Proj::definition($gda2ahd);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
+say "mga eht to ahd ausgeoid09 using 1step";
+
+$S  = "+proj=pipeline  +zone=$zone +south +ellps=GRS80";
+$S .= " +step +inv +proj=utm";
+$S .= " +step +proj=vgridshift +grids=au_ga_AUSGeoid09_V1.01.tif";
+$S .= " +step +proj=utm";
+$cs = Proj::create($S);
+$result = Proj::fwd($cs, $pos);
+printf "%.3f %.3f %.3f\n\n", @$result;
+
+
