@@ -41,13 +41,19 @@ printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga to mga gda94 to gda2020 gridshift";
 
-my $S =  " +proj=pipeline +zone=".$zone." +south +ellps=GRS80";
+my $S = "+proj=pipeline +zone=".$zone." +south +ellps=GRS80";
 $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=hgridshift +grids=au_icsm_GDA94_GDA2020_conformal.tif";
 $S .= " +step +proj=utm";
-say $S;
 $cs = Proj::create($S);
 say Proj::definition($cs);
 $result = Proj::fwd($cs,$pos);
+printf "%.3f %.3f %.3f\n\n", @$result;
+
+say "mga eht to ahd ausgeoid09 using 3steps";
+
+my $mga2gda = Proj::crs2crs("epsg:283".$zone, "epsg:4283");
+my $gda2ahd = Proj::crs2crs("epsg:4939", "epsg:9464");
+my $result  = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
 printf "%.3f %.3f %.3f\n\n", @$result;
 
