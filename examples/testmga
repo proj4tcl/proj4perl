@@ -54,7 +54,16 @@ say "mga eht to ahd ausgeoid09 using 3steps";
 
 my $mga2gda = Proj::crs2crs("epsg:283".$zone, "epsg:4283");
 my $gda2ahd = Proj::crs2crs("epsg:4939", "epsg:9464");
-my $result  = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
+$result     = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
+say Proj::definition($mga2gda);
+say Proj::definition($gda2ahd);
+printf "%.3f %.3f %.3f\n\n", @$result;
+
+say "mga eht to ahd ausgeoid2020 using 3steps";
+
+$mga2gda = Proj::crs2crs("epsg:78".$zone, "epsg:7844");
+$gda2ahd = Proj::crs2crs("epsg:7843", "epsg:9463");
+$result  = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
 say Proj::definition($mga2gda);
 say Proj::definition($gda2ahd);
 printf "%.3f %.3f %.3f\n\n", @$result;
