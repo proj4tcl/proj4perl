@@ -1,4 +1,4 @@
-# vim:ft=c:tst=4:sw=4:et
+# vim:ft=c:sts=4:sw=4:et
 
 package Proj;
 
@@ -16,6 +16,62 @@ use Inline C => 'DATA',
 1;
 
 __DATA__
+
+=pod
+
+=head1 NAME
+
+Proj - perl interface to proj.org projection library.
+
+=head1 VERSION
+
+This documentation refers to Proj version 0.01
+
+=head1 SYNOPSIS
+
+    use Proj;
+
+    say Proj::version();
+
+    my $src = "EPSG:4326";
+    my $tgt = "+proj=utm +zone=32 +datum=WGS84";
+    my $p = Proj::crs2crs($src,$tgt);
+    my $q = Proj::norm($p);
+    say Proj::definition($p);
+    say Proj::definition($q);
+
+    my $a = [12, 55];
+    my $b = Proj::fwd($q, $a);
+    printf "\neasting: %.3f, northing: %.3f\n", @$b;
+
+    my $c = Proj::inv($q, $b);
+    printf "\nlongitude: %g, latitude: %g\n", @$c;
+
+=head1 DESCRIPTION
+
+=head1 DEPENDENCIES
+
+=head1 BUGS AND LIMITATIONS
+
+There are no known bugs in this module.
+Patches are welcome.
+
+=head1 AUTHOR
+
+Peter Dean
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright 2024 Peter Dean
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See L<perlartistic>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+=cut
+
 __C__
 
 #include <proj.h>
