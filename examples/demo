@@ -21,4 +21,7 @@ printf "\neasting: %.3f, northing: %.3f\n", @$b;
 my $c = Proj::inv($q, $b);
 printf "\nlongitude: %g, latitude: %g\n", @$c;
 
+my $d = Proj::inv($q, Proj::fwd($q,$a));
+printf "\nlongitude: %g, latitude: %g\n", @$d;
+
 
