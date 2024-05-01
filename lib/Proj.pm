@@ -1,3 +1,4 @@
+# vim:ft=c:tst=4:sw=4:et
 
 package Proj;
 
@@ -28,6 +29,11 @@ char* definition(IV p) {
     PJ *P = INT2PTR(PJ* , p);
     PJ_PROJ_INFO info = proj_pj_info(P);
     return(info.definition);
+}
+
+IV create(char *src) {
+    PJ *P = proj_create(0,src);
+    return(PTR2IV(P));
 }
 
 IV crs2crs(char *src, char* tgt) {
