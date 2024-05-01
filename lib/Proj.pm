@@ -49,7 +49,21 @@ This documentation refers to Proj version 0.01
 
 =head1 DESCRIPTION
 
+Perl binding to L<proj|http://proj.org> library.
+
+=head1 SUBROUTINES
+
+
+
 =head1 DEPENDENCIES
+
+Requires proj libraries installed.
+
+eg Debian - apt install proj-bin proj-data libproj-dev
+
+=head1 SEE ALSO
+
+projinfo(1), projsync(1)
 
 =head1 BUGS AND LIMITATIONS
 
