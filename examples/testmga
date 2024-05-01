@@ -5,6 +5,9 @@ use v5.36;
 
 use Proj;
 
+# requires Australian data
+# projsync --system-directory --area-of-use Australia
+
 my $zone = 56;
 my $pos  = [502810, 6964520, 0];
 say "@$pos\n";
