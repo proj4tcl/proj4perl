@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# vim:ft=c:sts=4:sw=4:et
+# vim:ft=perl:sts=4:sw=4:et
 
 use v5.36;
 
