@@ -34,6 +34,20 @@ printf "%.5f %.5f %.3f\n\n", @$result2;
 say "mga to mga gda94 to gda2020 helmert?";
 
 $cs = Proj::crs2crs("EPSG:283".$zone, "EPSG:78".$zone);
+say Proj::definition($cs);
+$result = Proj::fwd($cs,$pos);
+say Proj::definition($cs);
+printf "%.3f %.3f %.3f\n\n", @$result;
+
+say "mga to mga gda94 to gda2020 gridshift";
+
+my $S =  " +proj=pipeline +zone=".$zone." +south +ellps=GRS80";
+$S .= " +step +inv +proj=utm";
+$S .= " +step +proj=hgridshift +grids=au_icsm_GDA94_GDA2020_conformal.tif";
+$S .= " +step +proj=utm";
+say $S;
+$cs = Proj::create($S);
+say Proj::definition($cs);
 $result = Proj::fwd($cs,$pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
