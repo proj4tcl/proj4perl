@@ -18,6 +18,8 @@ my $a = [12, 55];
 my $b = Proj::fwd($q, $a);
 printf "\neasting: %.3f, northing: %.3f\n", @$b;
 
+printf "\neasting: %.3f, northing: %.3f\n", @{Proj::fwd($q,$a)};
+
 my $c = Proj::inv($q, $b);
 printf "\nlongitude: %g, latitude: %g\n", @$c;
 
