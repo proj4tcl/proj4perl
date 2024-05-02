@@ -53,6 +53,31 @@ Perl binding to L<proj|http://proj.org> library.
 
 =head1 SUBROUTINES
 
+=over
+
+=item B<Proj::version>
+
+=back
+
+Returns the version of the current instance of proj.  This is the version field from the PJ_INFO structure returned from the proj_info function.
+
+See L<https://proj.org/development/reference/functions.html#c.proj_info> and L<https://proj.org/development/reference/datatypes.html#c.PJ_INFO>
+
+=over
+
+=item B<Proj::create> I<projstring>
+
+=back
+
+Returns a transformation object from a projstring etc.
+
+See L<https://proj.org/development/reference/functions.html#c.proj_create>
+
+
+
+
+
+
 
 
 =head1 DEPENDENCIES
@@ -66,6 +91,8 @@ eg Debian - apt install proj-bin proj-data libproj-dev
 projinfo(1), projsync(1)
 
 =head1 BUGS AND LIMITATIONS
+
+Ignores threading context in all functions. 
 
 There are no known bugs in this module.
 Patches are welcome.
