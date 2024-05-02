@@ -51,33 +51,71 @@ This documentation refers to Proj version 0.01
 
 Perl binding to L<proj|http://proj.org> library.
 
-=head1 SUBROUTINES
+=head1 FUNCTIONS
 
-=over
-
-=item B<Proj::version>
-
-=back
-
-Returns the version of the current instance of proj.  This is the version field from the PJ_INFO structure returned from the proj_info function.
-
-See L<https://proj.org/development/reference/functions.html#c.proj_info> and L<https://proj.org/development/reference/datatypes.html#c.PJ_INFO>
+=head2 Transformation setup
 
 =over
 
 =item B<Proj::create> I<projstring>
 
-=back
-
 Returns a transformation object from a projstring etc.
 
 See L<https://proj.org/development/reference/functions.html#c.proj_create>
 
+=item B<Proj::crs2crs> I<sourcestring> I<targetstring>
+
+Create a transformation object that is a pipeline between two known coordinate reference systems.
+
+See   L<https://proj.org/development/reference/functions.html#c.proj_create_crs_to_crs>
+
+=item B<Proj::norm> I<pj>
+
+Returns a PJ* object whose axis order is the one expected for visualization purposes.
+
+See  L<https://proj.org/development/reference/functions.html#c.proj_normalize_for_visualization>
 
 
+=back
+
+=head2 Coordinate transformation
+
+=over
+
+=item B<Proj::trans> I<pj> I<dirn> I<coord_ref>
+
+Transform a single coordinate.  Given a reference to array of doubles, returns a new array reference transformed.  The array may be any size from 2 to 4 items representing xy, xyz or xyzt coordinates. The dirn is either 1 for forward or -1 for inverse.
+
+See  L<https://proj.org/development/reference/functions.html#c.proj_trans>
+
+=item B<Proj::fwd> I<pj> I<coord-ref>
+
+Equivalent to Proj::trans pj 1 coordref
+
+=item B<Proj::inv> I<pj> I<coord-ref>
+
+Equivalent to Proj::trans pj -1 coordref
 
 
+=back
 
+=head2 Info Functions
+
+=over
+
+=item B<Proj::version>
+
+Returns the version of the current instance of proj.  This is the version field from the PJ_INFO structure returned from the proj_info function.
+
+See L<https://proj.org/development/reference/functions.html#c.proj_info>
+
+=item B<Proj::definition> I<pj>
+
+Returns the proj-string that was used to create the PJ object with.  The definition field from the PJ_PROJ_INFO structure.
+
+See L<https://proj.org/development/reference/functions.html#c.proj_pj_info> 
+
+=back
 
 
 =head1 DEPENDENCIES
