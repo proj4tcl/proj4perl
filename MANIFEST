@@ -5,6 +5,7 @@ README
 README.md
 t/Proj.t
 lib/Proj.pm
+lib/Proj.pod
 examples/demo
 examples/testmga
 META.yml                                 Module YAML meta-data (added by MakeMaker)
