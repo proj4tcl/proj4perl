@@ -113,6 +113,8 @@ projinfo(1), projsync(1)
 
 Ignores threading context in all functions. 
 
+Oustanding issues involving the best approach to destroying old projections.
+
 There are no known bugs in this module.
 Patches are welcome.
 
