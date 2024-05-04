@@ -78,6 +78,7 @@ $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=vgridshift +grids=au_ga_AUSGeoid09_V1.01.tif";
 $S .= " +step +proj=utm";
 $cs = Proj::create($S);
+say Proj::definition($cs);
 $result = Proj::fwd($cs, $pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
@@ -88,6 +89,7 @@ $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=vgridshift +grids=au_ga_AUSGeoid2020_20180201.tif";
 $S .= " +step +proj=utm";
 $cs = Proj::create($S);
+say Proj::definition($cs);
 $result = Proj::fwd($cs, $pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
