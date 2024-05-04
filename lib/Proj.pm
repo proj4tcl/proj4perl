@@ -29,8 +29,6 @@ use Inline C => 'DATA',
     version => '0.01',
     name => 'Proj';
 
-# The following Inline->init() call is optional - see below for more info.
-#Inline->init();
 1;
 
 __DATA__
