@@ -49,30 +49,24 @@ char* definition(SV* p) {
 
 SV* create(char *src) {
     PJ *P = proj_create(0,src);
-    SV* obj = newSViv((IV)P);
-    SV* obj_ref = newRV_noinc(obj);
-    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
-    SvREADONLY_on(obj);
-    return obj_ref;
+    SV *obj = newSV(0);
+    sv_setref_pv(obj, "Proj", (void *)P);
+    return obj;
 }
 
 SV* crs2crs(char *src, char* tgt) {
     PJ *P = proj_create_crs_to_crs(0,src,tgt,0);
-    SV* obj = newSViv((IV)P);
-    SV* obj_ref = newRV_noinc(obj);
-    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
-    SvREADONLY_on(obj);
-    return obj_ref;
+    SV *obj = newSV(0);
+    sv_setref_pv(obj, "Proj", (void *)P);
+    return obj;
 }
 
 SV* norm(SV* p) {
     PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ *Q = proj_normalize_for_visualization(0, P);
-    SV* obj = newSViv((IV)Q);
-    SV* obj_ref = newRV_noinc(obj);
-    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
-    SvREADONLY_on(obj);
-    return obj_ref;
+    SV *obj = newSV(0);
+    sv_setref_pv(obj, "Proj", (void *)Q);
+    return obj;
 }
 
 SV* trans(SV* p, int dirn, SV* coord_ref) {
