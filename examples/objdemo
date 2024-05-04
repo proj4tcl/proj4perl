@@ -9,18 +9,17 @@ my $src = "EPSG:4326";
 my $tgt = "+proj=utm +zone=32 +datum=WGS84";
 
 my $p = Proj->new($src,$tgt);
-
 say $p->definition;
-my $q = $p->norm;
-say $q->definition;
+$p = $p->norm;
+say $p->definition;
 
 my $a = [12, 55];
-my $b = $q->fwd($a);
+my $b = $p->fwd($a);
 printf "\neasting: %.3f, northing: %.3f\n", @$b;
 
-my $c = $q->inv($b);
+my $c = $p->inv($b);
 printf "\nlongitude: %g, latitude: %g\n", @$c;
 
-my $d = $q->inv($q->fwd($a));
+my $d = $p->inv($p->fwd($a));
 printf "\nlongitude: %g, latitude: %g\n", @$d;
 
