@@ -10,20 +10,20 @@ say Proj::version();
 my $src = "EPSG:4326";
 my $tgt = "+proj=utm +zone=32 +datum=WGS84";
 my $p = Proj::crs2crs($src,$tgt);
-my $q = Proj::norm($p);
 say Proj::definition($p);
-say Proj::definition($q);
+$p = Proj::norm($p);
+say Proj::definition($p);
 
 my $a = [12, 55];
-my $b = Proj::fwd($q, $a);
+my $b = Proj::fwd($p, $a);
 printf "\neasting: %.3f, northing: %.3f\n", @$b;
 
-printf "\neasting: %.3f, northing: %.3f\n", @{Proj::fwd($q,$a)};
+printf "\neasting: %.3f, northing: %.3f\n", @{Proj::fwd($p,$a)};
 
-my $c = Proj::inv($q, $b);
+my $c = Proj::inv($p, $b);
 printf "\nlongitude: %g, latitude: %g\n", @$c;
 
-my $d = Proj::inv($q, Proj::fwd($q,$a));
+my $d = Proj::inv($p, Proj::fwd($p,$a));
 printf "\nlongitude: %g, latitude: %g\n", @$d;
 
 
