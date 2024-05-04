@@ -2,6 +2,7 @@
 perl interface to proj.org library
 
 This is a work in progress but already quite usable.  See examples folder.
+Manpage in lib/Proj.pod
 
 Installation
 
