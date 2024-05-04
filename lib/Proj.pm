@@ -6,7 +6,6 @@ $VERSION = '0.01';
 use base 'Exporter';
 use strict;
 
-# see Perl Cookbook ch7.25
 BEGIN { 
     sub linux_conf {(LIBS => '-lproj')} 
 
