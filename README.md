@@ -4,6 +4,9 @@ perl interface to proj.org library
 This is a work in progress but already quite usable.  See examples folder.
 Manpage in lib/Proj.pod
 
+There is no object oriented versin. Sorry. The C vesion is adquate.  Theoblect
+oriented interfaces are a wank.
+
 Installation
 
 On linux  
