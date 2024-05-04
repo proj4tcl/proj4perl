@@ -103,3 +103,8 @@ SV* fwd(SV* p, SV* coord_ref) {
 SV* inv(SV* p, SV* coord_ref) {
     return(trans(p,-1,coord_ref));
 }
+
+void DESTROY(SV* obj) {
+    PJ* P = (PJ*)SvIV(SvRV(obj));
+    proj_destroy(P);
+}
