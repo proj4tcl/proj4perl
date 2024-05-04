@@ -41,29 +41,41 @@ char* version() {
     return(info.version);
 }
     
-char* definition(IV p) {
-    PJ *P = INT2PTR(PJ* , p);
+char* definition(SV* p) {
+    PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ_PROJ_INFO info = proj_pj_info(P);
     return(info.definition);
 }
 
-IV create(char *src) {
+SV* create(char *src) {
     PJ *P = proj_create(0,src);
-    return(PTR2IV(P));
+    SV* obj = newSViv((IV)P);
+    SV* obj_ref = newRV_noinc(obj);
+    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
+    SvREADONLY_on(obj);
+    return obj_ref;
 }
 
-IV crs2crs(char *src, char* tgt) {
+SV* crs2crs(char *src, char* tgt) {
     PJ *P = proj_create_crs_to_crs(0,src,tgt,0);
-    return(PTR2IV(P));
+    SV* obj = newSViv((IV)P);
+    SV* obj_ref = newRV_noinc(obj);
+    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
+    SvREADONLY_on(obj);
+    return obj_ref;
 }
 
-IV norm(IV p) {
-    PJ *P = INT2PTR(PJ* , p);
+SV* norm(SV* p) {
+    PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ *Q = proj_normalize_for_visualization(0, P);
-    return(PTR2IV(Q));
+    SV* obj = newSViv((IV)Q);
+    SV* obj_ref = newRV_noinc(obj);
+    sv_bless(obj_ref, gv_stashpv("Proj", GV_ADD));
+    SvREADONLY_on(obj);
+    return obj_ref;
 }
 
-SV* trans(IV p, int dirn, SV* coord_ref) {
+SV* trans(SV* p, int dirn, SV* coord_ref) {
     int n;
     if ((!SvROK(coord_ref)) || (SvTYPE(SvRV(coord_ref)) != SVt_PVAV)
         || ((n = av_len((AV *)SvRV(coord_ref))) < 0)) {
@@ -71,7 +83,7 @@ SV* trans(IV p, int dirn, SV* coord_ref) {
     }
     n = n>3 ? 3 : n;    
     AV* coord = (AV*) SvRV(coord_ref);
-    PJ *P = INT2PTR(PJ* , p);
+    PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ_COORD a = {{0.0, 0.0, 0.0, 0.0}};
     for (int i=0; i<=n; i++) {
         a.v[i] = SvNV(*av_fetch(coord, i, 0)); 
@@ -84,10 +96,10 @@ SV* trans(IV p, int dirn, SV* coord_ref) {
     return newRV_noinc((SV*) res);
 }
 
-SV* fwd(IV p, SV* coord_ref) {
+SV* fwd(SV* p, SV* coord_ref) {
     return(trans(p,1,coord_ref));
 }
 
-SV* inv(IV p, SV* coord_ref) {
+SV* inv(SV* p, SV* coord_ref) {
     return(trans(p,-1,coord_ref));
 }

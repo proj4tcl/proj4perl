@@ -8,5 +8,6 @@ lib/Proj.pm
 lib/Proj.pod
 examples/demo
 examples/testmga
+examples/objdemo
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)
