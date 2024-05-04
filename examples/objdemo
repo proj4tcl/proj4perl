@@ -5,25 +5,6 @@ use v5.36;
 
 use Proj;
 
-package Proj;
-
-sub new {
-    my $class = shift;
-    my $n = @_;
-    my $pj;
-
-    if ($n == 1) {
-        my $src = shift;
-        $pj = create($src);
-    }
-    elsif ($n == 2) {
-        my ($src, $tgt) = @_;
-        $pj = crs2crs($src,$tgt);
-    }
-    return $pj;
-}
-
-
 my $src = "EPSG:4326";
 my $tgt = "+proj=utm +zone=32 +datum=WGS84";
 

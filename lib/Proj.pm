@@ -23,6 +23,22 @@ BEGIN {
     }
 }
 
+sub new {
+    my $class = shift;
+    my $n = @_;
+    my $pj;
+
+    if ($n == 1) {
+        my $src = shift;
+        $pj = create($src);
+    }
+    elsif ($n == 2) {
+        my ($src, $tgt) = @_;
+        $pj = crs2crs($src,$tgt);
+    }
+    return $pj;
+}
+
 use Inline C => Config => my_conf ;
 
 use Inline C => 'DATA',
