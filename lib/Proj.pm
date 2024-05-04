@@ -6,19 +6,14 @@ $VERSION = '0.01';
 use base 'Exporter';
 use strict;
 
-BEGIN { sub myconf { } }
-
-BEGIN { sub linux_conf {(LIBS => '-lproj')} }
-
-BEGIN {
+# see Perl Cookbook ch7.25
+BEGIN { 
+    sub myconf { } 
+    sub linux_conf {(LIBS => '-lproj')} 
     sub mswin_conf {
         (myextlib => 'C:/OSGeo4W/bin/proj_9_4.dll',
-            inc => '-IC:/OSGeo4W/include');
+         inc      => '-IC:/OSGeo4W/include');
     }
-}
-
-# see Perl Cookbook ch7.25
-BEGIN {
     for ($^O) {
         *myconf = do {
             /linux/ && \&linux_conf ||
