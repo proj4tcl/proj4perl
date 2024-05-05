@@ -10,23 +10,29 @@ This documentation refers to Proj version 0.01
 
 =head1 SYNOPSIS
 
+    use v5.36;
     use Proj;
 
     say Proj::version();
 
     my $src = "EPSG:4326";
     my $tgt = "+proj=utm +zone=32 +datum=WGS84";
-    my $p = Proj::crs2crs($src,$tgt);
-    my $q = Proj::norm($p);
-    say Proj::definition($p);
-    say Proj::definition($q);
+    my $p = Proj->crs2crs($src,$tgt);
+    say $p->definition;
+    $p = $p->norm;
+    say $p->definition;
 
     my $a = [12, 55];
-    my $b = Proj::fwd($q, $a);
+    my $b = $p->fwd($a);
     printf "\neasting: %.3f, northing: %.3f\n", @$b;
 
-    my $c = Proj::inv($q, $b);
+    printf "\neasting: %.3f, northing: %.3f\n", @{$p->fwd($a)};
+
+    my $c = $p->inv($b);
     printf "\nlongitude: %g, latitude: %g\n", @$c;
+
+    my $d = $p->inv($p->fwd($a));
+    printf "\nlongitude: %g, latitude: %g\n", @$d;
 
 =head1 DESCRIPTION
 
@@ -38,19 +44,19 @@ Perl binding to L<proj|http://proj.org> library.
 
 =over
 
-=item B<Proj::create> I<projstring>
+=item B<< Proj->create >> I<projstring>
 
 Returns a transformation object from a projstring etc.
 
 See L<https://proj.org/development/reference/functions.html#c.proj_create>
 
-=item B<Proj::crs2crs> I<sourcestring> I<targetstring>
+=item B<< Proj->crs2crs >> I<sourcestring> I<targetstring>
 
 Create a transformation object that is a pipeline between two known coordinate reference systems.
 
 See   L<https://proj.org/development/reference/functions.html#c.proj_create_crs_to_crs>
 
-=item B<Proj::norm> I<pj>
+=item B<< $pj->norm >> 
 
 Returns a PJ* object whose axis order is the one expected for visualization purposes.
 
@@ -63,19 +69,19 @@ See  L<https://proj.org/development/reference/functions.html#c.proj_normalize_fo
 
 =over
 
-=item B<Proj::trans> I<pj> I<dirn> I<coord_ref>
+=item B<< $pj->trans >> I<dirn> I<coord_ref>
 
 Transform a single coordinate.  Given a reference to array of doubles, returns a new array reference transformed.  The array may be any size from 2 to 4 items representing xy, xyz or xyzt coordinates. The dirn is either 1 for forward or -1 for inverse.
 
 See  L<https://proj.org/development/reference/functions.html#c.proj_trans>
 
-=item B<Proj::fwd> I<pj> I<coord-ref>
+=item B<< $pj->fwd >> I<coord-ref>
 
-Equivalent to Proj::trans pj 1 coordref
+Equivalent to $pj->trans 1 coordref
 
-=item B<Proj::inv> I<pj> I<coord-ref>
+=item B<< $pj->inv >> I<coord-ref>
 
-Equivalent to Proj::trans pj -1 coordref
+Equivalent to $pj->trans -1 coordref
 
 
 =back
@@ -84,13 +90,13 @@ Equivalent to Proj::trans pj -1 coordref
 
 =over
 
-=item B<Proj::version>
+=item B<< Proj->version >>
 
 Returns the version of the current instance of proj.  This is the version field from the PJ_INFO structure returned from the proj_info function.
 
 See L<https://proj.org/development/reference/functions.html#c.proj_info>
 
-=item B<Proj::definition> I<pj>
+=item B<< $pj->definition >> 
 
 Returns the proj-string that was used to create the PJ object with.  The definition field from the PJ_PROJ_INFO structure.
 

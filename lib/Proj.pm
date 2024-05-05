@@ -30,11 +30,11 @@ sub new {
 
     if ($n == 1) {
         my $src = shift;
-        $pj = create($src);
+        $pj = $class->create($src);
     }
     elsif ($n == 2) {
         my ($src, $tgt) = @_;
-        $pj = crs2crs($src,$tgt);
+        $pj = $class->crs2crs($src,$tgt);
     }
     return $pj;
 }
@@ -63,17 +63,17 @@ char* definition(SV* p) {
     return(info.definition);
 }
 
-SV* create(char *src) {
+SV* create(const char *class, const char *src) {
     PJ *P = proj_create(0,src);
     SV *obj = newSV(0);
-    sv_setref_pv(obj, "Proj", (void *)P);
+    sv_setref_pv(obj, class, (void *)P);
     return obj;
 }
 
-SV* crs2crs(char *src, char* tgt) {
+SV* crs2crs(const char *class, const char *src, char* tgt) {
     PJ *P = proj_create_crs_to_crs(0,src,tgt,0);
     SV *obj = newSV(0);
-    sv_setref_pv(obj, "Proj", (void *)P);
+    sv_setref_pv(obj, class, (void *)P);
     return obj;
 }
 

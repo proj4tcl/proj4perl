@@ -14,32 +14,32 @@ say "@$pos\n";
 
 say "mga to geographic gda94";
 
-my $cs = Proj::crs2crs("EPSG:283".$zone, "EPSG:4283");
-say Proj::definition($cs);
-#$cs = Proj::norm($cs);
-say Proj::definition($cs);
-my $result = Proj::fwd($cs,$pos);
+my $cs = Proj->crs2crs("EPSG:283".$zone, "EPSG:4283");
+say $cs->definition;
+#$cs = $cs->norm;
+#say $cs->definition;
+my $result = $cs->fwd($pos);
 printf "%.9f %.9f %.3f\n", @$result;
-my $result2 = Proj::inv($cs,$result);
-printf "%.5f %.5f %.3f\n\n", @$result2;
+$result = $cs->inv($result);
+printf "%.5f %.5f %.3f\n\n", @$result;
 
 say "mga to geographic gda2020 same";
 
-$cs = Proj::crs2crs("EPSG:78".$zone, "EPSG:7844");
-say Proj::definition($cs);
-$cs = Proj::norm($cs);
-say Proj::definition($cs);
-$result = Proj::fwd($cs, $pos);
+$cs = Proj->crs2crs("EPSG:78".$zone, "EPSG:7844");
+say $cs->definition;
+$cs = $cs->norm;
+say $cs->definition;
+my $result = $cs->fwd($pos);
 printf "%.9f %.9f %.3f\n", @$result;
-$result2 = Proj::inv($cs, $result);
-printf "%.5f %.5f %.3f\n\n", @$result2;
+$result = $cs->inv($result);
+printf "%.5f %.5f %.3f\n\n", @$result;
 
 say "mga to mga gda94 to gda2020 helmert?";
 
-$cs = Proj::crs2crs("EPSG:283".$zone, "EPSG:78".$zone);
-say Proj::definition($cs);
-$result = Proj::fwd($cs,$pos);
-say Proj::definition($cs);
+$cs = Proj->crs2crs("EPSG:283".$zone, "EPSG:78".$zone);
+say $cs->definition;
+$result = $cs->fwd($pos);
+say $cs->definition;
 printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga to mga gda94 to gda2020 gridshift";
@@ -48,27 +48,27 @@ my $S = "+proj=pipeline +zone=".$zone." +south +ellps=GRS80";
 $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=hgridshift +grids=au_icsm_GDA94_GDA2020_conformal.tif";
 $S .= " +step +proj=utm";
-$cs = Proj::create($S);
-say Proj::definition($cs);
-$result = Proj::fwd($cs,$pos);
+$cs = Proj->create($S);
+say $cs->definition;
+$result = $cs->fwd($pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga eht to ahd ausgeoid09 using 3steps";
 
-my $mga2gda = Proj::crs2crs("epsg:283".$zone, "epsg:4283");
-my $gda2ahd = Proj::crs2crs("epsg:4939", "epsg:9464");
-$result     = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
-say Proj::definition($mga2gda);
-say Proj::definition($gda2ahd);
+my $mga2gda = Proj->crs2crs("epsg:283".$zone, "epsg:4283");
+my $gda2ahd = Proj->crs2crs("epsg:4939", "epsg:9464");
+$result     = $mga2gda->inv($gda2ahd->fwd($mga2gda->fwd($pos)));
+say $mga2gda->definition;
+say $gda2ahd->definition;
 printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga eht to ahd ausgeoid2020 using 3steps";
 
-$mga2gda = Proj::crs2crs("epsg:78".$zone, "epsg:7844");
-$gda2ahd = Proj::crs2crs("epsg:7843", "epsg:9463");
-$result  = Proj::inv($mga2gda, Proj::fwd($gda2ahd, Proj::fwd($mga2gda, $pos)));
-say Proj::definition($mga2gda);
-say Proj::definition($gda2ahd);
+$mga2gda = Proj->crs2crs("epsg:78".$zone, "epsg:7844");
+$gda2ahd = Proj->crs2crs("epsg:7843", "epsg:9463");
+$result  = $mga2gda->inv($gda2ahd->fwd($mga2gda->fwd($pos)));
+say $mga2gda->definition;
+say $gda2ahd->definition;
 printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga eht to ahd ausgeoid09 using 1step";
@@ -77,9 +77,9 @@ $S  = "+proj=pipeline  +zone=$zone +south +ellps=GRS80";
 $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=vgridshift +grids=au_ga_AUSGeoid09_V1.01.tif";
 $S .= " +step +proj=utm";
-$cs = Proj::create($S);
-say Proj::definition($cs);
-$result = Proj::fwd($cs, $pos);
+$cs = Proj->create($S);
+say $cs->definition;
+$result = $cs->fwd($pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
 say "mga eht to ahd ausgeoid2020 using 1step";
@@ -88,8 +88,8 @@ $S  = " +proj=pipeline  +zone=$zone +south +ellps=GRS80";
 $S .= " +step +inv +proj=utm";
 $S .= " +step +proj=vgridshift +grids=au_ga_AUSGeoid2020_20180201.tif";
 $S .= " +step +proj=utm";
-$cs = Proj::create($S);
-say Proj::definition($cs);
-$result = Proj::fwd($cs, $pos);
+$cs = Proj->create($S);
+say $cs->definition;
+$result = $cs->fwd($pos);
 printf "%.3f %.3f %.3f\n\n", @$result;
 
