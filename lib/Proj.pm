@@ -52,12 +52,12 @@ __C__
 
 #include <proj.h>
 
-char* version() {
+const char* version(const char *class) {
     PJ_INFO info = proj_info();
     return(info.version);
 }
     
-char* definition(SV* p) {
+const char* definition(SV* p) {
     PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ_PROJ_INFO info = proj_pj_info(P);
     return(info.definition);
@@ -70,7 +70,7 @@ SV* create(const char *class, const char *src) {
     return obj;
 }
 
-SV* crs2crs(const char *class, const char *src, char* tgt) {
+SV* crs2crs(const char *class, const char *src, const char* tgt) {
     PJ *P = proj_create_crs_to_crs(0,src,tgt,0);
     SV *obj = newSV(0);
     sv_setref_pv(obj, class, (void *)P);
