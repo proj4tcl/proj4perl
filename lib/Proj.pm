@@ -78,10 +78,11 @@ SV* crs2crs(const char *class, const char *src, const char* tgt) {
 }
 
 SV* norm(SV* p) {
+    char* class = HvNAME(SvSTASH(SvRV(p)));
     PJ *P = ((PJ*)SvIV(SvRV(p)));
     PJ *Q = proj_normalize_for_visualization(0, P);
     SV *obj = newSV(0);
-    sv_setref_pv(obj, "Proj", (void *)Q);
+    sv_setref_pv(obj, class, (void *)Q);
     return obj;
 }
 
